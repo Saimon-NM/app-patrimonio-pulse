@@ -1,0 +1,7 @@
+# GitHub Pages (Jekyll) si el origen es la carpeta /docs en una rama.
+# Esta carpeta es documentación interna; la SPA se publica con
+# `.github/workflows/pages.yml` → Settings → Pages → Source: GitHub Actions.
+#
+# Excluir Markdown evita que Jekyll falle por encoding o por tratar notas como sitio.
+exclude:
+  - "**/*.md"

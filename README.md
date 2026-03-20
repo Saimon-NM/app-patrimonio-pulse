@@ -44,6 +44,14 @@ Hay dos workflows en `.github/workflows/`:
 2. Haz **push** de los cambios a la rama **`main`**.
 3. Revisa la pestaña **Actions** para ver CI y el despliegue.
 
+### Si en Actions aparece `jekyll-build-pages` o errores al convertir `.md` en `docs/`
+
+Eso indica que Pages está usando **“Deploy from a branch”** con la carpeta **`/docs`** (Jekyll procesa los Markdown). Esta app se publica como **SPA estática** desde el workflow **`pages.yml`** (carpeta `dist`), no desde Jekyll.
+
+**Qué hacer:** en **Settings → Pages**, cambia el origen a **GitHub Actions** y desactiva el despliegue desde rama/`/docs`. En el repo hay `docs/_config.yml` que excluye los `.md` de Jekyll por si alguna vez vuelves a usar `/docs` como origen; igualmente lo recomendable para esta app es **solo GitHub Actions**.
+
+Los archivos en `docs/` deben guardarse en **UTF-8** (sin mezclar bytes Latin-1 como `0xF1` para la ñ); si no, Jekyll falla con *invalid byte sequence in UTF-8*.
+
 ### URL base en GitHub Pages (project pages)
 
 Para repositorios con URL del tipo `https://<usuario>.github.io/<repositorio>/`, el workflow define por defecto:
