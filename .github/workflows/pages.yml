@@ -20,6 +20,8 @@ env:
 
 jobs:
   build:
+    # Solo `main`: push a main o "Run workflow" eligiendo la rama `main`.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -61,6 +63,7 @@ jobs:
 
   deploy:
     needs: build
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

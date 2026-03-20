@@ -1,10 +1,11 @@
 name: CI
 
 on:
+  # PRs cuyo destino es `main` (p. ej. merge de dev → main).
   pull_request:
+    branches: [main]
   push:
-    # CI en ramas de integración; Pages sólo se despliega desde `main` (ver pages.yml).
-    branches: [main, dev]
+    branches: [main]
 
 # Evita avisos de deprecación: las Actions oficiales pasan a ejecutarse con Node 24 en el runner.
 # No tiene relación con la pantalla blanca en el navegador (eso suele ser 404 de assets o HTML equivocado).

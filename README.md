@@ -35,13 +35,13 @@ El código vive en `src/`, organizado por **features** (`accounts`, `portfolio`,
 
 Hay dos workflows en `.github/workflows/`:
 
-1. **`ci.yml`** — En **push** a **`main`** o **`dev`**, y en **pull requests**: instala dependencias, ejecuta tests y build.
-2. **`pages.yml`** — **Solo** en **push** a **`main`** (o *workflow_dispatch* eligiendo rama): construye la app, sube `dist` y despliega a **GitHub Pages**. Los pushes solo a **`dev` no actualizan** la URL pública salvo que ejecutes el workflow a mano desde `dev` o fusiones a `main`.
+1. **`ci.yml`** — Solo en **push** a **`main`** y en **pull requests** hacia **`main`**: tests y build.
+2. **`pages.yml`** — Solo **`main`**: **push** a `main` o *workflow_dispatch* **con la rama `main`** (si ejecutas el workflow desde otra rama, los jobs no corren). Publica `dist` en **GitHub Pages**.
 
 ### Pasos en GitHub
 
 1. **Settings → Pages** → origen **GitHub Actions** (no “Deploy from a branch”).
-2. Para publicar cambios: **push** a **`main`** (o **Actions → Deploy GitHub Pages → Run workflow** usando la rama que quieras desplegar).
+2. Para publicar cambios: **push** a **`main`**, o **Actions → Deploy GitHub Pages → Run workflow** dejando la rama **`main`**.
 3. Revisa la pestaña **Actions** para ver CI y el despliegue.
 
 ### Si en Actions aparece `jekyll-build-pages` o errores al convertir `.md` en `docs/`
