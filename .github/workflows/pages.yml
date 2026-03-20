@@ -36,10 +36,19 @@ jobs:
 
       - name: Build
         env:
-          # Para GitHub Pages en modo "project pages" suele ser `/${repo}/`.
-          # Puedes sobreescribirlo creando una variable a nivel repo: `VITE_BASE_URL`.
-          VITE_BASE_URL: ${{ vars.VITE_BASE_URL || format('/{0}/', github.event.repository.name) }}
+          # Project pages: `https://<user>.github.io/<repo>/` → base `/<repo>/`.
+          # Repo usuario `*.github.io`: el sitio suele estar en la raíz del dominio → base `/`.
+          # Opcional: variable de repo `VITE_BASE_URL` para forzar el valor.
+          VITE_BASE_URL: ${{ vars.VITE_BASE_URL || (endsWith(github.event.repository.name, '.github.io') && '/' || format('/{0}/', github.event.repository.name)) }}
         run: npm run build
+
+      - name: Verify production bundle (not dev index.html)
+        run: |
+          test -f dist/index.html
+          if grep -q 'src/main.tsx' dist/index.html; then
+            echo "::error::dist/index.html todavia apunta a /src/main.tsx (entrada de desarrollo). El artefacto no es un build de Vite valido."
+            exit 1
+          fi
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

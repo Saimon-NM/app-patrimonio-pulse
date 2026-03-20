@@ -52,6 +52,14 @@ Eso indica que Pages está usando **“Deploy from a branch”** con la carpeta 
 
 Los archivos en `docs/` deben guardarse en **UTF-8** (sin mezclar bytes Latin-1 como `0xF1` para la ñ); si no, Jekyll falla con *invalid byte sequence in UTF-8*.
 
+### Pantalla en blanco y consola: `main.tsx` 404 / `Unexpected token 'export'`
+
+Eso casi siempre significa que Pages está sirviendo el **`index.html` de la raíz del repo** (el de desarrollo con `<script src="/src/main.tsx">`), no la carpeta **`dist`** del workflow de Vite.
+
+**Solución:** en **Settings → Pages** el origen debe ser **solo GitHub Actions**. Quita cualquier publicación desde **rama** (`main` / `gh-pages`) o carpeta **`/docs`**. Después de guardar, vuelve a ejecutar el workflow **Deploy GitHub Pages** (o haz un push a `main`).
+
+Si ya usas Actions y la URL es `https://<usuario>.github.io/<repo>/`, asegúrate de abrir **esa** URL (con el nombre del repo en la ruta). Conviene un refresco forzado (Ctrl+F5) por caché.
+
 ### URL base en GitHub Pages (project pages)
 
 Para repositorios con URL del tipo `https://<usuario>.github.io/<repositorio>/`, el workflow define por defecto:
