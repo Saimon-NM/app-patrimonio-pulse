@@ -3,7 +3,8 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [dev]
+    # CI en ramas de integración; Pages sólo se despliega desde `main` (ver pages.yml).
+    branches: [main, dev]
 
 jobs:
   test-and-build:
