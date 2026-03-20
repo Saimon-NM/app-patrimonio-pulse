@@ -6,6 +6,11 @@ on:
     # CI en ramas de integración; Pages sólo se despliega desde `main` (ver pages.yml).
     branches: [main, dev]
 
+# Evita avisos de deprecación: las Actions oficiales pasan a ejecutarse con Node 24 en el runner.
+# No tiene relación con la pantalla blanca en el navegador (eso suele ser 404 de assets o HTML equivocado).
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   test-and-build:
     runs-on: ubuntu-latest
@@ -16,7 +21,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
           cache-dependency-path: package-lock.json
 

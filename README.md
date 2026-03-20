@@ -13,7 +13,7 @@ Aplicación web para visualizar y simular el estado de tu patrimonio: cuentas, p
 
 ## Requisitos
 
-- **Node.js 20** (alineado con GitHub Actions)
+- **Node.js 22+** (la CI en GitHub usa 22; compatible con Vite 8)
 - **npm** (el repo incluye `package-lock.json`)
 
 ## Comandos
