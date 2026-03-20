@@ -54,11 +54,16 @@ Los archivos en `docs/` deben guardarse en **UTF-8** (sin mezclar bytes Latin-1 
 
 ### Pantalla en blanco y consola: `main.tsx` 404 / `Unexpected token 'export'`
 
-Eso casi siempre significa que Pages está sirviendo el **`index.html` de la raíz del repo** (el de desarrollo con `<script src="/src/main.tsx">`), no la carpeta **`dist`** del workflow de Vite.
+Eso significa que el navegador está cargando el **`index.html` de desarrollo** (el que apunta a `src/main.tsx`), **no** el `index.html` que genera Vite dentro de **`dist/`** (que usa `/assets/index-....js`).
 
-**Solución:** en **Settings → Pages** el origen debe ser **solo GitHub Actions**. Quita cualquier publicación desde **rama** (`main` / `gh-pages`) o carpeta **`/docs`**. Después de guardar, vuelve a ejecutar el workflow **Deploy GitHub Pages** (o haz un push a `main`).
+En **Settings → Pages**, si el origen es **GitHub Actions** pero sigue el texto *“Workflow details will appear here once your site has been deployed”*, normalmente **aún no se ha publicado ningún sitio con el workflow correcto** (o sigue activo un despliegue viejo). Comprueba esto en el repo **`saimon-nm/app-patrimonio-pulse`** (o el tuyo):
 
-Si ya usas Actions y la URL es `https://<usuario>.github.io/<repo>/`, asegúrate de abrir **esa** URL (con el nombre del repo en la ruta). Conviene un refresco forzado (Ctrl+F5) por caché.
+1. **En GitHub (web):** abre `.github/workflows/pages.yml` en la rama **`main`** y confirma que existe y está actualizado (no solo en tu PC).
+2. **Actions:** debe haber una ejecución exitosa del workflow **“Deploy GitHub Pages”** con pasos **Upload Pages artifact** y **Deploy to GitHub Pages**. Si está en amarillo **“Waiting for approval”**, entra en la run y aprueba el despliegue (**Settings → Environments → `github-pages`** puede tener revisores obligatorios).
+3. **No uses** los templates **“Static HTML”** ni **“Jekyll”** si suben la **raíz del repo** (`path: .`): eso publica el `index.html` con `main.tsx` y rompe la app. Si creaste esos workflows, **bórralos** o desactiva su `on:`.
+4. Tras un deploy bueno, en **Settings → Pages** debería enlazarse el workflow que publica; la consola del sitio debe pedir **`/<repo>/assets/index-....js`**, no **`main.tsx`**.
+
+Prueba también **Ctrl+F5** (caché).
 
 ### URL base en GitHub Pages (project pages)
 

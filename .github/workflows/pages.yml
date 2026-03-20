@@ -45,8 +45,8 @@ jobs:
       - name: Verify production bundle (not dev index.html)
         run: |
           test -f dist/index.html
-          if grep -q 'src/main.tsx' dist/index.html; then
-            echo "::error::dist/index.html todavia apunta a /src/main.tsx (entrada de desarrollo). El artefacto no es un build de Vite valido."
+          if grep -E 'src/main\.tsx|/src/main\.tsx|\./src/main\.tsx' dist/index.html; then
+            echo "::error::dist/index.html todavia referencia main.tsx (entrada de desarrollo). Esta subiendo la raiz del repo en lugar de la carpeta dist o el build fallo."
             exit 1
           fi
 
