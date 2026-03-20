@@ -4,7 +4,13 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+// Permite que el build funcione correctamente en GitHub Pages con ruta
+// del tipo `https://<user>.github.io/<repo>/`.
+// Por defecto usamos `/` para dev y despliegues en el root.
+const baseUrl = process.env.VITE_BASE_URL ?? '/';
+
 export default defineConfig({
+  base: baseUrl,
   resolve: {
     alias: [
       // Alias consistente con imports tipo '@/shared/...' y '@/features/...'
